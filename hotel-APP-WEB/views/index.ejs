@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Готель ексклюзивного декору — Каталог номерів</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; }
+        header { background: #2c3e50; color: white; padding: 30px 20px; text-align: center; }
+        header h1 { margin: 0; font-size: 28px; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .filter-box { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; display: flex; gap: 15px; }
+        .filter-box input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
+        .filter-box button { background: #e67e22; color: white; border: none; padding: 0 25px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .room-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; }
+        .room-body { padding: 20px; }
+        .room-title { font-size: 20px; font-weight: bold; color: #2c3e50; margin-bottom: 8px; }
+        .room-info { font-size: 14px; color: #666; margin-bottom: 6px; }
+        .room-price { font-size: 18px; font-weight: bold; color: #27ae60; margin-top: 15px; }
+        .room-footer { padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .badge-free { background: #e8f8f5; color: #1abc9c; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .badge-booked { background: #fdebd0; color: #d35400; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .btn-book { background: #3498db; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+        .btn-cancel { background: #e74c3c; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+        .btn-book:hover { background: #2980b9; }
+        .btn-cancel:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hotel Decoration & Style</h1>
+        <p>Каталог номерів з унікальним авторським декором</p>
+    </header>
+
+    <div class="container">
+        <div class="filter-box">
+            <form action="/search" method="GET" style="display: flex; width: 100%; gap: 15px; margin: 0;">
+                <input type="text" name="q" placeholder="Пошук за стилем декору або типом..." required>
+                <button type="submit">Знайти</button>
+            </form>
+        </div>
+
+        <h2>Список номерів</h2>
+        
+        <div class="rooms-grid">
+            <% if (rooms.length > 0) { %>
+                <% rooms.forEach(room => { %>
+                    <div class="room-card">
+                        <div class="room-body">
+                            <div class="room-title">Номер №<%= room.roomNumber %></div>
+                            <div class="room-info">Тип: <strong><%= room.roomType %></strong></div>
+                            <div class="room-info">Стиль декору: <em><%= room.decorationStyle %></em></div>
+                            <% if (room.status === 'BOOKED') { %>
+                                <div class="room-info" style="margin-top: 10px; color: #d35400;">
+                                    Заброньовано на ім'я: <strong><%= room.clientName %></strong> (<%= room.clientPhone %>)
+                                </div>
+                            <% } %>
+                            <div class="room-price"><%= room.basePrice %> грн / ніч</div>
+                        </div>
+                        <div class="room-footer">
+                            <% if (room.status === 'FREE') { %>
+                                <span class="badge-free">Вільний</span>
+                                <a href="/book/<%= room._id %>" class="btn-book">Забронювати</a>
+                            <% } else { %>
+                                <span class="badge-booked">Заброньовано</span>
+                                <a href="/cancel/<%= room._id %>" class="btn-cancel">Відмінити</a>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Немає доступних номерів.</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Редагування номера №<%= room.roomNumber %></title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px auto; max-width: 500px; background-color: #f4f6f9; color: #333; }
+        .card { background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #f39c12; color: white; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+        button:hover { background: #d68910; }
+        .back-link { display: inline-block; margin-top: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Редагувати номер №<%= room.roomNumber %></h2>
+        <form action="/edit/<%= room._id %>" method="POST">
+            <label>Номер кімнати:</label>
+            <input type="number" name="roomNumber" value="<%= room.roomNumber %>" required>
+
+            <label>Тип номера:</label>
+            <input type="text" name="roomType" value="<%= room.roomType %>" required>
+
+            <label>Базова ціна (грн):</label>
+            <input type="number" name="basePrice" value="<%= room.basePrice %>" required>
+
+            <label>Стиль декору:</label>
+            <input type="text" name="decorationStyle" value="<%= room.decorationStyle %>" required>
+
+            <label>Статус:</label>
+            <select name="status">
+                <option value="FREE" <%= room.status === 'FREE' ? 'selected' : '' %>>FREE (Вільний)</option>
+                <option value="OCCUPIED" <%= room.status === 'OCCUPIED' ? 'selected' : '' %>>OCCUPIED (Зайнятий)</option>
+                <option value="DECORATING" <%= room.status === 'DECORATING' ? 'selected' : '' %>>DECORATING (Оформлюється)</option>
+            </select>
+
+            <button type="submit">Зберегти зміни</button>
+        </form>
+        <a class="back-link" href="/">← Повернутися до списку</a>
+    </div>
+</body>
+</html>

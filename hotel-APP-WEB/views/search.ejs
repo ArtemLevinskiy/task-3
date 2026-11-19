@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Результати пошуку</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #fcfcfc; color: #333; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #2c3e50; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #3498db; text-decoration: none; font-weight: bold; }
+        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .room-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 20px; }
+        .room-title { font-size: 20px; font-weight: bold; color: #2c3e50; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back-link" href="/">← Повернутися до всіх номерів</a>
+        <h1>Результати пошуку за запитом: "<%= searchQuery %>"</h1>
+
+        <div class="rooms-grid" style="margin-top: 20px;">
+            <% if (rooms.length > 0) { %>
+                <% rooms.forEach(room => { %>
+                    <div class="room-card">
+                        <div class="room-title">Номер №<%= room.roomNumber %></div>
+                        <p>Тип: <strong><%= room.roomType %></strong></p>
+                        <p>Стиль декору: <em><%= room.decorationStyle %></em></p>
+                        <p style="color: #27ae60; font-weight: bold;"><%= room.basePrice %> грн / ніч</p>
+                        <a href="/book/<%= room._id %>" style="color: #3498db; font-weight: bold; text-decoration: none;">Забронювати →</a>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>За вашим запитом нічого не знайдено.</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
